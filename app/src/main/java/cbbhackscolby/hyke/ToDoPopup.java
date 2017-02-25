@@ -9,16 +9,13 @@ import android.view.LayoutInflater;
 
 public class ToDoPopup extends DialogFragment {
 
-    public String todoName;
-    public String todoDescription;
-
+    public ToDoPopupListener mListener;
 
     public interface ToDoPopupListener {
         void onDialogPositiveClick(DialogFragment dialog);
         void onDialogNegativeClick(DialogFragment dialog);
     }
 
-    ToDoPopupListener mListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
