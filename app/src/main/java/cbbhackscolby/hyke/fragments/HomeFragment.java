@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        final String city = "Boston";
+        final String city = "Brunswick";
         final Call<WeatherJSON> weatherQuery =  retrofit.create(WeatherAPI.class).getWeatherByLocation(city, "imperial", "3d3df0ff882e30f369c028263c36ed31");
         weatherQuery.enqueue(new Callback<WeatherJSON>() {
             @Override
