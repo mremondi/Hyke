@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -125,6 +126,12 @@ public class HomeActivity extends AppCompatActivity {
         else if(menuOptions[position].equals("NearMe")){
             fragment = new NearMeFragment();
         }
+
+        FragmentTransaction trans = this.getSupportFragmentManager().beginTransaction();
+        trans.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        trans.replace(R.id.content_frame, fragment, "tag");
+        trans.addToBackStack(null);
+        trans.commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
