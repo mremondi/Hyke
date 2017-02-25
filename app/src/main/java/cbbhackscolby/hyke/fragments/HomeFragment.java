@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,8 +42,8 @@ public class HomeFragment extends Fragment {
         final TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
         final ImageView ivWeatherIcon = (ImageView) rootView.findViewById(R.id.ivWeatherIcon);
 
-        Button sigin = (Button) rootView.findViewById(R.id.signin);
-        sigin.setOnClickListener(new View.OnClickListener() {
+        Button signin = (Button) rootView.findViewById(R.id.signin);
+        signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
@@ -82,7 +83,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
                 bHomeButton.startAnimation(pulse);
+
                 mDrawerLayout.openDrawer(Gravity.LEFT);
+
             }
         });
 
