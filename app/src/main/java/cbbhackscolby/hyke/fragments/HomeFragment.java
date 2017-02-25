@@ -72,15 +72,16 @@ public class HomeFragment extends Fragment {
         });
 
 
-        Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
+        final Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
+        final Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
         bHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("HERE","Testing");
+                bHomeButton.startAnimation(pulse);
             }
         });
-        Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
-        bHomeButton.startAnimation(pulse);
+
+
 
         return rootView;
     }

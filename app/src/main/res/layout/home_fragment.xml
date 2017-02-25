@@ -11,8 +11,10 @@
 
     <Button
         android:id="@+id/bHomeButton"
-        android:layout_width="600px"
-        android:layout_height="600px"
+        android:elevation="20dp"
+        android:stateListAnimator="@null"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@mipmap/main"/>
