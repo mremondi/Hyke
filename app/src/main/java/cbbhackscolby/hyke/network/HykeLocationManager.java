@@ -7,8 +7,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
+
+import cbbhackscolby.hyke.models.Loc;
 
 /**
  * Created by mremondi on 2/25/17.
@@ -54,6 +59,10 @@ public class HykeLocationManager implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
+        ref.child(uid).child("location").setValue(new Loc(location.getLatitude(), location.getLongitude()));
         EventBus.getDefault().post(location);
     }
 

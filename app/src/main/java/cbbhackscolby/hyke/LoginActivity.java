@@ -30,7 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import cbbhackscolby.hyke.models.Loc;
 import cbbhackscolby.hyke.models.User;
+import cbbhackscolby.hyke.network.HykeLocationManager;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -39,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private DatabaseReference database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

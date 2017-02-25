@@ -15,8 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cbbhackscolby.hyke.fragments.CreateGroupFragment;
 import cbbhackscolby.hyke.fragments.DistressFragment;
 import cbbhackscolby.hyke.fragments.HomeFragment;
+import cbbhackscolby.hyke.fragments.JoinGroupFragment;
 import cbbhackscolby.hyke.fragments.MessagesFragment;
 import cbbhackscolby.hyke.fragments.NearMeFragment;
 import cbbhackscolby.hyke.fragments.ToDoFragment;
@@ -108,6 +110,12 @@ public class HomeActivity extends AppCompatActivity {
         else if (menuOptions[position].equals("ToDo")){
             fragment = new ToDoFragment();
         }
+        else if (menuOptions[position].equals("Create Group")){
+            fragment = new CreateGroupFragment();
+        }
+        else if (menuOptions[position].equals("Join Group")){
+            fragment = new JoinGroupFragment();
+        }
         else if (menuOptions[position].equals("Distress")){
             fragment = new DistressFragment();
         }
@@ -117,15 +125,6 @@ public class HomeActivity extends AppCompatActivity {
         else if(menuOptions[position].equals("NearMe")){
             fragment = new NearMeFragment();
         }
-
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);

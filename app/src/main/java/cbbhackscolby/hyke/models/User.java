@@ -17,7 +17,6 @@ public class User {
     public User(String fullName){
         this.fullName = fullName;
         this.currGroup = null;
-        this.location = new Loc();
         this.distress = false;
     }
 }
