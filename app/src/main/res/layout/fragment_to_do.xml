@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="cbbhackscolby.hyke.fragments.ToDoFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -13,8 +14,11 @@
     <android.support.design.widget.FloatingActionButton
 
         android:id="@+id/fabAddTodo"
-        android:src="@drawable/ic_add_circle_black_24dp"
+        android:src="@drawable/ic_add_white_24dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:layout_anchorGravity="bottom|right|end"/>
 
 </FrameLayout>
