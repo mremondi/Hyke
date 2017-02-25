@@ -1,6 +1,7 @@
 package cbbhackscolby.hyke.network;
 
 import cbbhackscolby.hyke.models.Weather;
+import cbbhackscolby.hyke.models.WeatherJSON;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -12,6 +13,6 @@ import retrofit2.http.Query;
 
 public interface WeatherAPI {
     // 3d3df0ff882e30f369c028263c36ed31
-    @GET("weather?{lat}&{lon}&APPID=3d3df0ff882e30f369c028263c36ed31")
-    Call<Weather> getWeatherByLocation(@Path("lat") String lat, @Path("lon") String lon);
+    @GET("weather")
+    Call<WeatherJSON> getWeatherByLocation(@Query("q") String city, @Query("units") String units, @Query("appid") String id);
 }
