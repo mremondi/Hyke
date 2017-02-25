@@ -1,5 +1,6 @@
 package cbbhackscolby.hyke.fragments;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cbbhackscolby.hyke.LoginActivity;
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.Main;
 import cbbhackscolby.hyke.models.Weather;
@@ -35,6 +37,13 @@ public class HomeFragment extends Fragment {
         TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
 
         Button sigin = (Button) rootView.findViewById(R.id.signin);
+        sigin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/2.5/")
