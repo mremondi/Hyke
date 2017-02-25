@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
+
 }
 
 

@@ -184,3 +184,4 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/android,intellij,intellij+iml,git,macos
+.idea/gradle.xml
