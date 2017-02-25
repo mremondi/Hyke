@@ -21,6 +21,12 @@
         android:layout_centerHorizontal="true"
         android:background="@mipmap/main"/>
 
+    <Button
+        android:id="@+id/signin"
+        android:text="Sign in with google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 

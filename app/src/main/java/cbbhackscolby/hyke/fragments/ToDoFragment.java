@@ -1,23 +1,19 @@
 package cbbhackscolby.hyke.fragments;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.ToDoPopup;
 import cbbhackscolby.hyke.adapters.ToDoRecyclerAdapter;
@@ -42,11 +38,13 @@ public class ToDoFragment extends Fragment implements ToDoPopup.ToDoPopupListene
         toDoRecyclerView.setLayoutManager(linearLayoutManager);
         toDoRecyclerView.setAdapter(todoRecyclerAdapter);
 
+        final ToDoPopup.ToDoPopupListener listener = this;
         FloatingActionButton floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fabAddTodo);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ToDoPopup popup = new ToDoPopup();
+                popup.mListener = listener;
                 popup.show(getFragmentManager(), "ToDoPopup");
             }
         });

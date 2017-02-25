@@ -62,6 +62,14 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter{
             tvToDoName.setText(todo.getName());
             tvToDoDescription.setText(todo.getDescription());
 
+            cbDone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cbDone.setChecked(true);
+                    todo.setDone(true);
+                }
+            });
+
         }
     }
 }
