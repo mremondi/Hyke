@@ -26,7 +26,7 @@ import cbbhackscolby.hyke.network.HykeLocationManager;
 
 public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
-    private HashMap<Marker, User> markerRestaurantHashMap;
+    private HashMap<Marker, User> markerUserHashMap;
     private LatLng location;
     private MapView mapView;
     private GoogleMap googleMap;
@@ -37,7 +37,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.near_me_fragment, null, false);
 
-        markerRestaurantHashMap = new HashMap<>();
+        markerUserHashMap = new HashMap<>();
 
         hykeLocationManager = new HykeLocationManager(this.getContext());
         location = hykeLocationManager.getLastKnownLocation();
