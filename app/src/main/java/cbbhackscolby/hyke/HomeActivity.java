@@ -1,7 +1,11 @@
 package cbbhackscolby.hyke;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +13,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import cbbhackscolby.hyke.fragments.DistressFragment;
 import cbbhackscolby.hyke.fragments.HomeFragment;
 import cbbhackscolby.hyke.fragments.MessagesFragment;
 import cbbhackscolby.hyke.fragments.NearMeFragment;
 import cbbhackscolby.hyke.fragments.ToDoFragment;
+import cbbhackscolby.hyke.network.HykeLocationManager;
 
 public class HomeActivity extends AppCompatActivity {
+
+    public static final int REQUEST_CODE_LOCATION_PERMISSION = 401;
 
     private String[] menuOptions;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+
+    HykeLocationManager hykeLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +58,37 @@ public class HomeActivity extends AppCompatActivity {
                 .commit();
 
 
+        hykeLocationManager = new HykeLocationManager(this);
+        requestNeededPermission();
+    }
+
+
+    public void requestNeededPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(this, "Crave requires usage of location services", Toast.LENGTH_SHORT).show();
+            }
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
+        }
+        else{
+            hykeLocationManager.startLocationMonitoring();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOCATION_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "FINE_LOC perm granted", Toast.LENGTH_SHORT).show();
+                    hykeLocationManager.startLocationMonitoring();
+                } else {
+                    Toast.makeText(this, "FINE_LOC perm NOT granted", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
