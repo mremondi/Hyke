@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +40,8 @@ public class HomeFragment extends Fragment {
         final TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
         final ImageView ivWeatherIcon = (ImageView) rootView.findViewById(R.id.ivWeatherIcon);
 
-        Button sigin = (Button) rootView.findViewById(R.id.signin);
-        sigin.setOnClickListener(new View.OnClickListener() {
+        Button signin = (Button) rootView.findViewById(R.id.signin);
+        signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
@@ -78,6 +79,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 bHomeButton.startAnimation(pulse);
+
+                Fragment createGroupFragment = new CreateGroupFragment();
+                Bundle args = new Bundle();
+                createGroupFragment.setArguments(args);
+
+                // Insert the fragment by replacing any existing fragment
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, createGroupFragment)
+                        .commit();
             }
         });
 
