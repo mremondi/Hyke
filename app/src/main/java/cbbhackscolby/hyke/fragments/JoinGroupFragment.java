@@ -8,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import cbbhackscolby.hyke.R;
+import cbbhackscolby.hyke.models.User;
 
 /**
  * Created by mremondi on 2/25/17.
@@ -30,12 +35,30 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // check to see if the group exists, if it does append the current uid to the list of uids in the group
-//                FirebaseAuth auth = FirebaseAuth.getInstance();
-//                String uid = auth.getCurrentUser().getUid();
-//                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups");
-//                if (ref.child(joinGroupPasscode.getText().toString())!= null){
-//                    ref.child(joinGroupPasscode.getText().toString()).;
-//                }
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                String uid = auth.getCurrentUser().getUid();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("groups");
+                
+                ref.child(joinGroupPasscode.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.exists()){
+                            Toast.makeText(getContext(), "That group does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                if (ref.child(joinGroupPasscode.getText().toString())!= null){
+                    ref.child(joinGroupPasscode.getText().toString())
+                            .child("members")
+                            .child(uid)
+                            .setValue(true);
+                }
 
 
             }
