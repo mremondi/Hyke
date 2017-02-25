@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Hyke</string>
+
+    <string-array name="menu_options">
+        <item>Home</item>
+        <item>ToDo</item>
+        <item>Distress</item>
+        <item>Messages</item>
+        <item>NearMe</item>
+    </string-array>
 </resources>
