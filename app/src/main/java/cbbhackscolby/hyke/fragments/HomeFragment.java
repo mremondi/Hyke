@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.Main;
 import cbbhackscolby.hyke.models.Weather;
+import cbbhackscolby.hyke.models.WeatherJSON;
 import cbbhackscolby.hyke.network.WeatherAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,26 +35,32 @@ public class HomeFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.home_fragment, null, false);
 
         final TextView tvTemperature = (TextView) rootView.findViewById(R.id.tvTemperature);
-        TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
+        final TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
+        final ImageView ivWeatherIcon = (ImageView) rootView.findViewById(R.id.ivWeatherIcon);
 
         Button sigin = (Button) rootView.findViewById(R.id.signin);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        final Call<Weather> weatherQuery =  retrofit.create(WeatherAPI.class).getWeatherByLocation("139", "35");
-        weatherQuery.enqueue(new Callback<Weather>() {
+        final String city = "Boston";
+        final Call<WeatherJSON> weatherQuery =  retrofit.create(WeatherAPI.class).getWeatherByLocation(city, "imperial", "3d3df0ff882e30f369c028263c36ed31");
+        weatherQuery.enqueue(new Callback<WeatherJSON>() {
             @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
+            public void onResponse(Call<WeatherJSON> call, Response<WeatherJSON> response) {
                 // need to cast Main to Main and get the temperature
-                tvTemperature.setText(response.body().getMain());
+                tvWeatherLocation.setText(city);
+                tvTemperature.setText(response.body().getMain().getTemp().toString());
+                String iconCode = response.body().getWeather().getIcon() + ".png";
+                Log.d("HER", iconCode);
+                Glide.with(rootView.getContext()).load("http://openweathermap.org/img/w/" + iconCode).into(ivWeatherIcon);
             }
 
             @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
-
+            public void onFailure(Call<WeatherJSON> call, Throwable t) {
+                Log.d("error", t.getMessage());
             }
         });
 
