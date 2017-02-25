@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import cbbhackscolby.hyke.fragments.DistressFragment;
 import cbbhackscolby.hyke.fragments.HomeFragment;
 import cbbhackscolby.hyke.fragments.MessagesFragment;
+import cbbhackscolby.hyke.fragments.NearMeFragment;
 import cbbhackscolby.hyke.fragments.ToDoFragment;
 
 public class HomeActivity extends AppCompatActivity {
@@ -34,6 +34,18 @@ public class HomeActivity extends AppCompatActivity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, menuOptions));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        Fragment fragment = new HomeFragment();
+
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
 
     }
 
@@ -61,8 +73,7 @@ public class HomeActivity extends AppCompatActivity {
             fragment = new MessagesFragment();
         }
         else if(menuOptions[position].equals("NearMe")){
-            /// figure out map stuff later
-            // it's an activity now... preferably would be a fragment
+            fragment = new NearMeFragment();
         }
 
         Bundle args = new Bundle();
