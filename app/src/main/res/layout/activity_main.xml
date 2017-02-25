@@ -16,7 +16,6 @@
         android:id="@+id/weatherRow"
         layout="@layout/weather_widget"/>
 
-
     <ImageButton
         android:id="@+id/homeScreenButton"
         android:layout_width="wrap_content"
@@ -30,7 +29,5 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottom_bar_tabs"/>
-
-
 
 </RelativeLayout>
