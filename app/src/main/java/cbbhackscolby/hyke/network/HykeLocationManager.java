@@ -30,8 +30,8 @@ public class HykeLocationManager implements LocationListener {
     }
 
     public void startLocationMonitoring() throws SecurityException {
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 1000, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 1000, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
 
