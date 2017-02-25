@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,20 +77,15 @@ public class HomeFragment extends Fragment {
 
         final Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
         final Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
+        final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         bHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 bHomeButton.startAnimation(pulse);
 
-                Fragment createGroupFragment = new CreateGroupFragment();
-                Bundle args = new Bundle();
-                createGroupFragment.setArguments(args);
+                mDrawerLayout.openDrawer(Gravity.LEFT);
 
-                // Insert the fragment by replacing any existing fragment
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, createGroupFragment)
-                        .commit();
             }
         });
 

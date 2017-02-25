@@ -23,11 +23,11 @@
     <Button
         android:id="@+id/signin"
         android:text="Sign in with google"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp" />
+        android:layout_below="@+id/bHomeButton"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

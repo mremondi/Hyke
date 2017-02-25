@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     public void requestNeededPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Toast.makeText(this, "Crave requires usage of location services", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hyke requires usage of location services", Toast.LENGTH_SHORT).show();
             }
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
         }
