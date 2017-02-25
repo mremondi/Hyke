@@ -11,7 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import cbbhackscolby.hyke.fragments.DistressFragment;
 import cbbhackscolby.hyke.fragments.HomeFragment;
+import cbbhackscolby.hyke.fragments.MessagesFragment;
+import cbbhackscolby.hyke.fragments.ToDoFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -38,7 +41,6 @@ public class HomeActivity extends AppCompatActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.d("HEre", "" + position);
             selectItem(position);
         }
     }
@@ -46,7 +48,24 @@ public class HomeActivity extends AppCompatActivity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = new HomeFragment();
+        Fragment fragment = null;
+        if (menuOptions[position].equals("Home")){
+            fragment = new HomeFragment();
+        }
+        else if (menuOptions[position].equals("ToDo")){
+            fragment = new ToDoFragment();
+        }
+        else if (menuOptions[position].equals("Distress")){
+            fragment = new DistressFragment();
+        }
+        else if (menuOptions[position].equals("Messages")){
+            fragment = new MessagesFragment();
+        }
+        else if(menuOptions[position].equals("NearMe")){
+            /// figure out map stuff later
+            // it's an activity now... preferably would be a fragment
+        }
+
         Bundle args = new Bundle();
         fragment.setArguments(args);
 
