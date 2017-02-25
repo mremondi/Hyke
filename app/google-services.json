@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "225045726184",
+    "firebase_url": "https://hyke-a61f6.firebaseio.com",
+    "project_id": "hyke-a61f6",
+    "storage_bucket": "hyke-a61f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225045726184:android:9197eccfc6e39dfa",
+        "android_client_info": {
+          "package_name": "cbbhackscolby.hyke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225045726184-q3h1ef053bjk1plv33ri0uoerc34hvk8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cbbhackscolby.hyke",
+            "certificate_hash": "eea7fdf2bb8980584f602bf06eb13941af55f26a"
+          }
+        },
+        {
+          "client_id": "225045726184-0f89k3ed5u3lc7dqg3qambvglcadvq4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyYaUa8NAYpso9IxsB2iMk2adLlDU2-JE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225045726184-0f89k3ed5u3lc7dqg3qambvglcadvq4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
