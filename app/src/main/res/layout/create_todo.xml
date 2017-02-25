@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+     >
 
     <EditText
         android:id="@+id/etTodoName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="task name"/>
+        android:hint="Task name"/>
 
     <EditText
         android:id="@+id/etTodoDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="task description"/>
+        android:hint="Task description"/>
 
 </LinearLayout>
