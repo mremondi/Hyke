@@ -63,10 +63,13 @@ public class ToDoFragment extends Fragment implements ToDoPopup.ToDoPopupListene
 
         ToDo toDo = new ToDo(etTodoName.getText().toString(), etTodoDescription.getText().toString());
 
+        if(toDo.getName().equals("")){
 
-
-        toDos.add(toDo);
-        todoRecyclerAdapter.notifyDataSetChanged();
+        }
+        else {
+            toDos.add(toDo);
+            todoRecyclerAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
