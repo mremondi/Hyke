@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.Message;
 
@@ -28,57 +31,69 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_messages, null, false);
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        String uid = user.getUid();
+        final String name = user.getDisplayName();
+        DatabaseReference currentGroup = FirebaseDatabase.getInstance().getReference("users").child(uid).child("currGroup");
 
-
-
-        ListView listOfMessages = (ListView)rootView.findViewById(R.id.list_of_messages);
-
-        adapter = new FirebaseListAdapter<Message>(getActivity(), Message.class,
-                R.layout.message, FirebaseDatabase.getInstance()
-                                .getReference()
-                                .child("groups")
-                                .child("uid123")
-                                .child("messages")) {
+        currentGroup.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void populateView(View v, Message model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    //Toast.makeText(getContext(), "That group does not exist", Toast.LENGTH_SHORT).show();
+                } else {
+                    final String currentGroup = (String) dataSnapshot.getValue();
 
-                // Set their text
-                messageText.setText(model.message);
-                messageUser.setText(model.origin);
 
-                // Format the date before showing it
-                messageTime.setText(DateFormat.format("HH:mm",
-                        model.dtime));
+                    ListView listOfMessages = (ListView) rootView.findViewById(R.id.list_of_messages);
+
+                    adapter = new FirebaseListAdapter<Message>(getActivity(), Message.class,
+                            R.layout.message, FirebaseDatabase.getInstance()
+                            .getReference()
+                            .child("groups")
+                            .child(currentGroup)
+                            .child("messages")) {
+                        @Override
+                        protected void populateView(View v, Message model, int position) {
+                            // Get references to the views of message.xml
+                            TextView messageText = (TextView) v.findViewById(R.id.message_text);
+                            TextView messageUser = (TextView) v.findViewById(R.id.message_user);
+                            TextView messageTime = (TextView) v.findViewById(R.id.message_time);
+
+                            // Set their text
+                            messageText.setText(model.message);
+                            messageUser.setText(model.origin);
+
+                            // Format the date before showing it
+                            messageTime.setText(model.dtime);
+                        }
+                    };
+                    listOfMessages.setAdapter(adapter);
+
+                    FloatingActionButton fabSend = (FloatingActionButton) rootView.findViewById(R.id.fabSend);
+                    final EditText input = (EditText) rootView.findViewById(R.id.etMessageText);
+                    fabSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FirebaseDatabase.getInstance()
+                                    .getReference()
+                                    .child("groups")
+                                    .child(currentGroup)
+                                    .child("messages")
+                                    .push()
+                                    .setValue(new Message(input.getText().toString(), name));
+
+                            // Clear the input
+                            input.setText("");
+                        }
+                    });
+                }
             }
-        };
 
-        listOfMessages.setAdapter(adapter);
-
-        FloatingActionButton fabSend = (FloatingActionButton) rootView.findViewById(R.id.fabSend);
-        final EditText input = (EditText)rootView.findViewById(R.id.etMessageText);
-        fabSend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onCancelled(DatabaseError databaseError) {
 
-
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance()
-                        .getReference()
-                        .child("groups")
-                        .child("uid123")
-                        .child("messages")
-                        .push()
-                        .setValue(new Message(input.getText().toString(),
-                                "Mike")
-                        );
-
-                // Clear the input
-                input.setText("");
             }
         });
 
