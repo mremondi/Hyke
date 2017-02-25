@@ -6,16 +6,13 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.roughike.bottombar.BottomBar;
-
 import cbbhackscolby.hyke.adapters.BottomBarAdapter;
 
 
@@ -31,14 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("HERE", "here1");
-
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         BottomBarAdapter bottomBarAdapter = new BottomBarAdapter(bottomBar, this);
         bottomBarAdapter.setUpBottomBar();
-
-        Log.d("HERE", "here1");
-
 
         LinearLayout weatherLayout = (LinearLayout) findViewById(R.id.weatherRow);
 
@@ -47,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvLocation = (TextView) weatherLayout.findViewById(R.id.tvLocation);
         tvLocation.setText("Brunswick");
-
-        Log.d("HERE", "here1");
-
 
         ImageButton homeButton = (ImageButton) findViewById(R.id.homeScreenButton);
         homeButton.setOnTouchListener(new View.OnTouchListener() {
@@ -65,9 +54,5 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 1);
             }
         }
-
-
-
-
     }
 }
