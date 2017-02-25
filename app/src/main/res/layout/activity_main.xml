@@ -10,8 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cbbhackscolby.hyke.MainActivity">
 
-    <TextView
+    <include
+        android:id="@+id/weatherRow"
+        layout="@layout/weather_widget"/>
+
+
+    <ImageButton
+        android:id="@+id/homeScreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:src=""/>
+
+
+
 </RelativeLayout>
