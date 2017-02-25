@@ -52,9 +52,8 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<WeatherJSON> call, Response<WeatherJSON> response) {
                 // need to cast Main to Main and get the temperature
                 tvWeatherLocation.setText(city);
-                tvTemperature.setText(response.body().getMain().getTemp().toString());
-                String iconCode = response.body().getWeather().getIcon() + ".png";
-                Log.d("HER", iconCode);
+                tvTemperature.setText(response.body().getMain().getTemp().toString() + (char)176 + "F");
+                String iconCode = response.body().getWeather()[0].getIcon() + ".png";
                 Glide.with(rootView.getContext()).load("http://openweathermap.org/img/w/" + iconCode).into(ivWeatherIcon);
             }
 

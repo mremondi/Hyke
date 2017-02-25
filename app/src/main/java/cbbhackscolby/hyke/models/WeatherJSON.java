@@ -5,14 +5,14 @@ package cbbhackscolby.hyke.models;
  */
 
 public class WeatherJSON {
-    private Weather weather;
+    private Weather[] weather;
     private Main main;
 
-    public Weather getWeather() {
+    public Weather[] getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(Weather[] weather) {
         this.weather = weather;
     }
 
