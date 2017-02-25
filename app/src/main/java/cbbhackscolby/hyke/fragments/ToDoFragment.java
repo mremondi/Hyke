@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +57,14 @@ public class ToDoFragment extends Fragment implements ToDoPopup.ToDoPopupListene
     public void onDialogPositiveClick(DialogFragment dialog) {
         Dialog dialogView = dialog.getDialog();
         EditText etTodoName = (EditText) dialogView.findViewById(R.id.etTodoName);
+
+
         EditText etTodoDescription = (EditText) dialogView.findViewById(R.id.etTodoDescription);
 
         ToDo toDo = new ToDo(etTodoName.getText().toString(), etTodoDescription.getText().toString());
+
+
+
         toDos.add(toDo);
         todoRecyclerAdapter.notifyDataSetChanged();
     }
