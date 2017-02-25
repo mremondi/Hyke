@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,10 +76,13 @@ public class HomeFragment extends Fragment {
 
         final Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
         final Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
+        final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         bHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 bHomeButton.startAnimation(pulse);
+                mDrawerLayout.openDrawer(Gravity.LEFT);
             }
         });
 
