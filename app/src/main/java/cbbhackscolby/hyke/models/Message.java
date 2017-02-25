@@ -11,6 +11,8 @@ public class Message {
     public String origin;
     public long dtime;
 
+    public Message(){}
+    
     public Message(String message, String sender){
         this.message = message;
         this.origin = sender;
