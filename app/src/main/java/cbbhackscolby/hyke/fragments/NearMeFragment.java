@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -168,6 +169,9 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         try {
+            googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this.getContext(), R.raw.style_json));
             googleMap.setMyLocationEnabled(true);
             if (location != null){
                 loadLocationByLatLng();
