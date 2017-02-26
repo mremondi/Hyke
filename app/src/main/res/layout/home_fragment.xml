@@ -13,7 +13,7 @@
     <Button
         android:id="@+id/bHomeButton"
         android:elevation="20dp"
-        android:stateListAnimator="@null"
+
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:layout_centerVertical="true"

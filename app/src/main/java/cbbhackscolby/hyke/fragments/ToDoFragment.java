@@ -8,10 +8,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class ToDoFragment extends Fragment implements ToDoPopup.ToDoPopupListene
         todoRecyclerAdapter = new ToDoRecyclerAdapter(toDos, getContext());
         final RecyclerView toDoRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_favorites);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        final Button cleartodo = (Button) rootView.findViewById(R.id.cleartodo);
         toDoRecyclerView.setLayoutManager(linearLayoutManager);
         toDoRecyclerView.setAdapter(todoRecyclerAdapter);
 
@@ -47,6 +50,13 @@ public class ToDoFragment extends Fragment implements ToDoPopup.ToDoPopupListene
                 ToDoPopup popup = new ToDoPopup();
                 popup.mListener = listener;
                 popup.show(getFragmentManager(), "ToDoPopup");
+            }
+        });
+        cleartodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("HERE","TESTING");
+
             }
         });
         return rootView;

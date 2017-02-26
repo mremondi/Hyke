@@ -85,9 +85,11 @@ public class MessagesFragment extends Fragment {
                                     .setValue(new Message(input.getText().toString(), name));
 
                             input.setText("");
+
                         }
                     });
                 }
+
             }
 
             @Override

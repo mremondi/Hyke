@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.home_fragment, null, false);
-
+        final Animation fadein = AnimationUtils.loadAnimation(getContext(),R.anim.fadein);
         final TextView tvTemperature = (TextView) rootView.findViewById(R.id.tvTemperature);
         final TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
         final ImageView ivWeatherIcon = (ImageView) rootView.findViewById(R.id.ivWeatherIcon);
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
-
+        signin.startAnimation(fadein);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
 
 
         final Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
+        bHomeButton.startAnimation(fadein);
         final Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
         final DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         bHomeButton.setOnClickListener(new View.OnClickListener() {
