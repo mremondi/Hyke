@@ -85,14 +85,14 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onGeoQueryReady() {
                 // not sure what this does
+                Log.d("HERE", "In on ready");
             }
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
+                Log.d("ERROR", error.getMessage());
             }
         });
-
-
         return rootView;
     }
 
