@@ -12,7 +12,6 @@ import retrofit2.http.Query;
  */
 
 public interface WeatherAPI {
-    // 3d3df0ff882e30f369c028263c36ed31
     @GET("weather")
     Call<WeatherJSON> getWeatherByLocation(@Query("q") String city, @Query("units") String units, @Query("appid") String id);
 }

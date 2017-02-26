@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,6 +43,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap googleMap;
     private HykeLocationManager hykeLocationManager;
+    public boolean firstZoom = true;
 
     @Nullable
     @Override
@@ -49,22 +51,29 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         View rootView = inflater.inflate(R.layout.near_me_fragment, null, false);
 
         markerUserIdHashMap = new HashMap<>();
-
         hykeLocationManager = new HykeLocationManager(this.getContext());
         location = hykeLocationManager.getLastKnownLocation();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
+        final String uid = auth.getCurrentUser().getUid();
         SharedPreferences prefs = getActivity().getSharedPreferences("USER_DATA", 0);
         String group_id = prefs.getString("GROUP_ID", "");
 
         GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("group_locations").child(group_id));
+<<<<<<< Updated upstream
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 50);
         Log.d("GeoQuery","" + geoQuery.getCenter().latitude + ", " + geoQuery.getCenter().longitude );
+=======
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 1.6);
+>>>>>>> Stashed changes
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 Log.d("on key entered", ""+ location.latitude);
-                addFriendMarker(key, location);
+                if(key.equals(uid)){}
+                else {
+                    addFriendMarker(key, location);
+                }
             }
 
             @Override
@@ -75,11 +84,14 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
                 Log.d("on key moved", "" + location.latitude);
-                if (markerUserIdHashMap.containsKey(key)) {
-                    animateFriendMarker(key, location);
-                }
-                else{
-                    addFriendMarker(key, location);
+                if(key.equals(uid)){
+
+                } else {
+                    if (markerUserIdHashMap.containsKey(key)) {
+                        animateFriendMarker(key, location);
+                    } else {
+                        addFriendMarker(key, location);
+                    }
                 }
             }
 
@@ -114,7 +126,17 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void loadLocationByLatLng(){
+<<<<<<< Updated upstream
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)19));
+=======
+        if (firstZoom){
+            firstZoom = false;
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)12));
+        }
+        else{
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, googleMap.getCameraPosition().zoom));
+        }
+>>>>>>> Stashed changes
     }
 
     public void addFriendMarker(String uid, GeoLocation location){
@@ -161,11 +183,9 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 //            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 //                @Override
 //                public void onInfoWindowClick(Marker marker) {
-//                    Intent i = new Intent(getContext(), RestaurantView.class);
-//                    i.putExtra(RestaurantView.RESTAURANT_ID, markerRestaurantHashMap.get(marker).getObjectID());
-//                    startActivity(i);
+//                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").get;
 //                }
-//            }); COULD MAYBE DO SOMETHING COOL HERE?
+//            });
         }catch (SecurityException e){}
     }
 
