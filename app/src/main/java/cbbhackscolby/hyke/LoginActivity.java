@@ -147,8 +147,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct);
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
         } else {
             // Signed out, show unauthenticated UI.
             Log.d("HERE", "Signed out");
@@ -156,7 +154,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("HERE", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
@@ -164,6 +161,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("HERE", "signInWithCredential:onComplete:" + task.isSuccessful());
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
+                        finish();
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the

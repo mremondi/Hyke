@@ -1,6 +1,7 @@
 package cbbhackscolby.hyke;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import cbbhackscolby.hyke.fragments.CreateGroupFragment;
 import cbbhackscolby.hyke.fragments.DistressFragment;
@@ -40,29 +43,37 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        menuOptions = getResources().getStringArray(R.array.menu_options);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+        else {
 
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, menuOptions));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+            menuOptions = getResources().getStringArray(R.array.menu_options);
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        Fragment fragment = new HomeFragment();
+            // Set the adapter for the list view
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, menuOptions));
+            // Set the list's click listener
+            mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+            Fragment fragment = new HomeFragment();
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
 
 
-        hykeLocationManager = new HykeLocationManager(this);
-        requestNeededPermission();
+            hykeLocationManager = new HykeLocationManager(this);
+            requestNeededPermission();
+        }
     }
 
 

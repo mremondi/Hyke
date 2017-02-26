@@ -54,10 +54,6 @@ public class HomeFragment extends Fragment {
 //        });
 //        signin.startAnimation(fadein);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null){
-            Intent i = new Intent(getActivity(), LoginActivity.class);
-            startActivity(i);
-        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
