@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/join_group_passcode"
         android:textColor="@color/colorAccent"
+        android:layout_centerHorizontal="true"
         android:text="Join Group"/>
 
 
