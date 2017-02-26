@@ -146,8 +146,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("HERE", acct.getDisplayName());
             firebaseAuthWithGoogle(acct);
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
         } else {
             // Signed out, show unauthenticated UI.
             Log.d("HERE", "Signed out");

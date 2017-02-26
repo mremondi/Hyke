@@ -10,15 +10,15 @@
 
     <include layout="@layout/weather_widget"/>
 
-    <Button
-        android:id="@+id/bHomeButton"
-        android:elevation="20dp"
+    <!--<Button-->
+        <!--android:id="@+id/bHomeButton"-->
+        <!--android:elevation="20dp"-->
 
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="@mipmap/main"/>
+        <!--android:layout_width="280dp"-->
+        <!--android:layout_height="280dp"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@mipmap/main"/>-->
 
     <Button
         android:id="@+id/signin"

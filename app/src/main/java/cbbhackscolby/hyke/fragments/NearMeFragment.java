@@ -23,18 +23,23 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import java.util.HashMap;
 import cbbhackscolby.hyke.R;
+import cbbhackscolby.hyke.models.User;
 import cbbhackscolby.hyke.network.HykeLocationManager;
 
 public class NearMeFragment extends Fragment implements OnMapReadyCallback {
@@ -75,7 +80,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onKeyExited(String key) {
-                Toast.makeText(getContext(), "One of your members has left your map.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "One of your members has left your map.", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -96,7 +101,6 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
             public void onGeoQueryReady() {
                 // not sure what this does
                 Log.d("HERE", "In on ready");
-
             }
 
             @Override
@@ -132,9 +136,36 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void addFriendMarker(String uid, GeoLocation location){
-        LatLng latLng = new LatLng(location.latitude, location.longitude);
-        markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng).title(uid)));
+    public void addFriendMarker(final String uid, GeoLocation location){
+        final LatLng latLng = new LatLng(location.latitude, location.longitude);
+        FirebaseDatabase.getInstance().getReference("users").child(uid).child("distress").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if ((boolean)dataSnapshot.getValue() == true){
+                    FirebaseDatabase.getInstance().getReference("users").child(uid).child("fullName").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                                    .title(dataSnapshot.getValue().toString())));
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else{
+                    markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(uid)));                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void animateFriendMarker(String uid, GeoLocation location){
@@ -182,7 +213,6 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onStart() {
         super.onStart();
-
         EventBus.getDefault().register(this);
     }
 

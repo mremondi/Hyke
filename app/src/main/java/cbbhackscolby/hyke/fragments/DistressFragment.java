@@ -35,9 +35,7 @@ public class DistressFragment extends Fragment {
         ivDistressSignal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(dist) {
-
                     ref.setValue(false);
                     dist = false;
                 }
@@ -46,7 +44,7 @@ public class DistressFragment extends Fragment {
                     dist = true;
                 }
             }
-            });
+        });
         return rootView;
     }
 }
