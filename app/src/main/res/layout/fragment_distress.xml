@@ -10,5 +10,17 @@
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_warning_red_400_24dp"/>
+    <TextView
+        android:id="@+id/tvDistress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="#18b4cd"
+        android:layout_margin="40dp"
+        android:layout_centerInParent="true"
+        android:textSize="30sp"
+        android:text="All Clear"
 
+
+        />
 </RelativeLayout>
