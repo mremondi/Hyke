@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#2B2D38"
     android:layout_width="match_parent" android:layout_height="match_parent">
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:textColor="#18b4cd"
         android:id="@+id/message_user"
         android:textStyle="normal|bold" />
 
@@ -14,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/message_user"
+        android:textColor="#BCBCBC"
         android:layout_alignParentRight="true"
         android:id="@+id/message_time" />
 
@@ -21,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/message_user"
+        android:textColor="#BCBCBC"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="5dp"
         android:id="@+id/message_text"

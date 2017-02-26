@@ -58,7 +58,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         String group_id = prefs.getString("GROUP_ID", "");
 
         GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("group_locations").child(group_id));
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 1.6);
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 50);
         Log.d("GeoQuery","" + geoQuery.getCenter().latitude + ", " + geoQuery.getCenter().longitude );
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
@@ -114,7 +114,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void loadLocationByLatLng(){
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)19));
     }
 
     public void addFriendMarker(String uid, GeoLocation location){
