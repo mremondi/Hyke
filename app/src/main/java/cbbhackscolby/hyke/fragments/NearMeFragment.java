@@ -59,6 +59,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
         GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("group_locations").child(group_id));
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 1.6);
+        Log.d("GeoQuery","" + geoQuery.getCenter().latitude + ", " + geoQuery.getCenter().longitude );
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
@@ -86,6 +87,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
             public void onGeoQueryReady() {
                 // not sure what this does
                 Log.d("HERE", "In on ready");
+
             }
 
             @Override

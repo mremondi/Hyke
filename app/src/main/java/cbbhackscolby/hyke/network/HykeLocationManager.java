@@ -16,6 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import cbbhackscolby.hyke.models.Loc;
 
 /**
@@ -69,11 +73,17 @@ public class HykeLocationManager implements LocationListener {
 
         SharedPreferences prefs = context.getSharedPreferences("USER_DATA", 0);
         String group_id = prefs.getString("GROUP_ID", "");
+
+        GeoHash geoHash = new GeoHash(location.getLatitude(), location.getLongitude());
+        Map<String, Object> updates = new HashMap<String, Object>();
+        updates.put("g", geoHash.getGeoHashString());
+        updates.put("l", Arrays.asList(location.getLatitude(), location.getLongitude()));
+
         FirebaseDatabase.getInstance().getReference()
                 .child("group_locations")
                 .child(group_id)
                 .child(uid)
-                .setValue(new GeoHash(location.getLatitude(), location.getLongitude()));
+                .setValue(updates);
         EventBus.getDefault().post(location);
     }
 
