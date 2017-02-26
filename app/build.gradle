@@ -39,6 +39,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.firebaseui:firebase-ui-database:1.2.0'
     compile 'com.firebase:geofire-android:2.1.1'
+    compile 'com.android.volley:volley:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
