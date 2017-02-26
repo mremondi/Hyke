@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,18 +22,31 @@ import cbbhackscolby.hyke.R;
 public class DistressFragment extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    protected Boolean dist = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        final String uid = auth.getCurrentUser().getUid();
+        final DatabaseReference ref = database.getReference("users").child(uid).child("distress");
+        ref.setValue(dist);
         final View rootView = inflater.inflate(R.layout.fragment_distress, null, false);
         ImageView ivDistressSignal = (ImageView) rootView.findViewById(R.id.ivDistressSignal);
         ivDistressSignal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference ref = database.getReference("users").child("uid111").child("distress");
-                ref.setValue(true);
+
+                if(dist) {
+
+                    ref.setValue(false);
+                    dist = false;
+                }
+                else {
+                    ref.setValue(true);
+                    dist = true;
+                }
             }
-        });
+            });
         return rootView;
     }
 }
