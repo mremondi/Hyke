@@ -82,7 +82,7 @@ public class CreateGroupFragment extends Fragment {
                                     }
                                 });
 
-                                // remove myself from the other group UH OH
+                                // remove myself from the other group UH OH TODO
 
                                 // change my currGroup field
                                 FirebaseDatabase.getInstance()

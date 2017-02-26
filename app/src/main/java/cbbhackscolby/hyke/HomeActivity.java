@@ -108,9 +108,9 @@ public class HomeActivity extends AppCompatActivity {
         if (menuOptions[position].equals("Home")){
             fragment = new HomeFragment();
         }
-        else if (menuOptions[position].equals("ToDo")){
-            fragment = new ToDoFragment();
-        }
+//        else if (menuOptions[position].equals("ToDo")){
+//            fragment = new ToDoFragment();
+//        }
         else if (menuOptions[position].equals("Create Group")){
             fragment = new CreateGroupFragment();
         }

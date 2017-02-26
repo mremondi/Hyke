@@ -3,7 +3,6 @@
 
     <string-array name="menu_options">
         <item>Home</item>
-        <item>ToDo</item>
         <item>Create Group</item>
         <item>Join Group</item>
         <item>Distress</item>
