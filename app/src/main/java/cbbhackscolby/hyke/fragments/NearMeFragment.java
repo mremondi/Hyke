@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +27,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.HashMap;
-
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.network.HykeLocationManager;
 
@@ -56,11 +53,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         hykeLocationManager = new HykeLocationManager(this.getContext());
         location = hykeLocationManager.getLastKnownLocation();
 
-        // Listen to everyone in your group's location
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        String uid = user.getUid();
         SharedPreferences prefs = getActivity().getSharedPreferences("USER_DATA", 0);
         String group_id = prefs.getString("GROUP_ID", "");
 
@@ -69,7 +62,7 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                // do nothing
+                Log.d("on key entered", ""+ location.latitude);
                 addFriendMarker(key, location);
             }
 
@@ -80,7 +73,13 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
-                animateFriendMarker(key, location);
+                Log.d("on key moved", "" + location.latitude);
+                if (markerUserIdHashMap.containsKey(key)) {
+                    animateFriendMarker(key, location);
+                }
+                else{
+                    addFriendMarker(key, location);
+                }
             }
 
             @Override
@@ -90,7 +89,6 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
-                // do nothing
             }
         });
 
@@ -115,8 +113,6 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
     public void loadLocationByLatLng(){
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)12));
-
-        // get locations from fire base
     }
 
     public void addFriendMarker(String uid, GeoLocation location){
