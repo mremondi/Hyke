@@ -37,6 +37,8 @@ public class MessagesFragment extends Fragment {
         final String name = user.getDisplayName();
         DatabaseReference currentGroup = FirebaseDatabase.getInstance().getReference("users").child(uid).child("currGroup");
 
+        final TextView tvGroupName = (TextView) rootView.findViewById(R.id.tvGroupName);
+
         currentGroup.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -44,6 +46,7 @@ public class MessagesFragment extends Fragment {
                     //Toast.makeText(getContext(), "That group does not exist", Toast.LENGTH_SHORT).show();
                 } else {
                     final String currentGroup = (String) dataSnapshot.getValue();
+                    tvGroupName.setText(currentGroup);
 
 
                     ListView listOfMessages = (ListView) rootView.findViewById(R.id.list_of_messages);

@@ -1,8 +1,11 @@
 package cbbhackscolby.hyke.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.WeatherJSON;
@@ -41,12 +49,9 @@ public class CreateGroupFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.create_group_fragment, null, false);
 
         final TextView tvCode = (TextView) rootView.findViewById(R.id.tvCode);
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-//        // Instantiate the RequestQueue.
-//        final RequestQueue queue = Volley.newRequestQueue(this.getContext());
-//        final String url ="http://cpmajgaard.com:8081";
-
-        Button btnCreateGroupCode = (Button) rootView.findViewById(R.id.btnCreateGroupCode);
+        final Button btnCreateGroupCode = (Button) rootView.findViewById(R.id.btnCreateGroupCode);
         btnCreateGroupCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,9 +63,45 @@ public class CreateGroupFragment extends Fragment {
                 final Call<String> randomWordQuery =  retrofit.create(RandomWordAPI.class).getRandomWord();
                 randomWordQuery.enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                        Log.d("WORD", response.body());
-                        tvCode.setText(response.body());
+                    public void onResponse(Call<String> call, final retrofit2.Response<String> response) {
+                        final String groupName = response.body();
+                        tvCode.setText(groupName);
+
+                        btnCreateGroupCode.setText("Join Group");
+                        btnCreateGroupCode.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                // Create the group
+                                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("groups");
+                                ref.setValue(response.body()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        // add myself to the group
+                                        ref.child(groupName).child("members").setValue(uid);
+                                    }
+                                });
+
+                                // remove myself from the other group UH OH
+
+                                // change my currGroup field
+                                FirebaseDatabase.getInstance()
+                                        .getReference("users")
+                                        .child(uid)
+                                        .child("currGroup")
+                                        .setValue(groupName);
+
+                                // add group name to group_locations
+                                FirebaseDatabase.getInstance().getReference("group_locations").setValue(groupName);
+
+                                Fragment fragment = new MessagesFragment();
+                                FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                                trans.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                                trans.replace(R.id.content_frame, fragment, "tag");
+                                trans.addToBackStack(null);
+                                trans.commit();
+                            }
+                        });
                     }
 
                     @Override
@@ -68,24 +109,6 @@ public class CreateGroupFragment extends Fragment {
                         Log.d("error", t.getMessage());
                     }
                 });
-
-                // Request a string response from the provided URL.
-//                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                        new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                // Display the first 500 characters of the response string.
-//                                mTextView.setText("Secret Phrase: \n"+ response);
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        VolleyLog.d("HERE", "Error: " + error.networkResponse.statusCode);
-//                        mTextView.setText("That didn't work!");
-//                    }
-//                });
-//                // Add the request to the RequestQueue.
-//                queue.add(stringRequest);
             }
         });
 

@@ -60,12 +60,8 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
         String group_id = prefs.getString("GROUP_ID", "");
 
         GeoFire geoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("group_locations").child(group_id));
-<<<<<<< Updated upstream
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 50);
         Log.d("GeoQuery","" + geoQuery.getCenter().latitude + ", " + geoQuery.getCenter().longitude );
-=======
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(location.latitude, location.longitude), 1.6);
->>>>>>> Stashed changes
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
@@ -126,17 +122,13 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void loadLocationByLatLng(){
-<<<<<<< Updated upstream
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)19));
-=======
         if (firstZoom){
             firstZoom = false;
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)12));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, (float)19));
         }
         else{
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(this.location, googleMap.getCameraPosition().zoom));
         }
->>>>>>> Stashed changes
     }
 
     public void addFriendMarker(String uid, GeoLocation location){
@@ -180,12 +172,6 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
             if (location != null){
                 loadLocationByLatLng();
             }
-//            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-//                @Override
-//                public void onInfoWindowClick(Marker marker) {
-//                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").get;
-//                }
-//            });
         }catch (SecurityException e){}
     }
 
