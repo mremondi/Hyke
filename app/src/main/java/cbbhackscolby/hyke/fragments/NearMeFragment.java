@@ -138,26 +138,30 @@ public class NearMeFragment extends Fragment implements OnMapReadyCallback {
 
     public void addFriendMarker(final String uid, GeoLocation location){
         final LatLng latLng = new LatLng(location.latitude, location.longitude);
+
+        markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                .title(uid)));
+
+        FirebaseDatabase.getInstance().getReference("users").child(uid).child("fullName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                markerUserIdHashMap.get(uid).setTitle(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         FirebaseDatabase.getInstance().getReference("users").child(uid).child("distress").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if ((boolean)dataSnapshot.getValue() == true){
-                    FirebaseDatabase.getInstance().getReference("users").child(uid).child("fullName").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                                    .title(dataSnapshot.getValue().toString())));
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-                else{
-                    markerUserIdHashMap.put(uid, googleMap.addMarker(new MarkerOptions().position(latLng)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(uid)));                }
+                if((boolean)dataSnapshot.getValue() == true)
+                    markerUserIdHashMap.get(uid).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                else
+                    markerUserIdHashMap.get(uid).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             }
 
             @Override

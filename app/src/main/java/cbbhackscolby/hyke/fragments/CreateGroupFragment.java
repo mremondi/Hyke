@@ -1,6 +1,7 @@
 package cbbhackscolby.hyke.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,8 +25,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.WeatherJSON;
@@ -74,32 +78,58 @@ public class CreateGroupFragment extends Fragment {
 
                                 // Create the group
                                 final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("groups");
-                                ref.setValue(response.body()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        // add myself to the group
-                                        ref.child(groupName).child("members").setValue(uid);
-                                    }
-                                });
+                                ref.child(groupName).child("members").child(uid).setValue(true);
 
                                 // remove myself from the other group UH OH TODO
-
-                                // change my currGroup field
                                 FirebaseDatabase.getInstance()
                                         .getReference("users")
                                         .child(uid)
                                         .child("currGroup")
-                                        .setValue(groupName);
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                ref.child(dataSnapshot.getValue().toString())
+                                                        .child("members")
+                                                        .child(uid)
+                                                        .removeValue();
 
-                                // add group name to group_locations
-                                FirebaseDatabase.getInstance().getReference("group_locations").setValue(groupName);
+                                                FirebaseDatabase.getInstance()
+                                                        .getReference("group_locations")
+                                                        .child(dataSnapshot.getValue().toString())
+                                                        .child(uid)
+                                                        .removeValue();
 
-                                Fragment fragment = new MessagesFragment();
-                                FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
-                                trans.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                                trans.replace(R.id.content_frame, fragment, "tag");
-                                trans.addToBackStack(null);
-                                trans.commit();
+                                                // change my currGroup field
+                                                FirebaseDatabase.getInstance()
+                                                        .getReference("users")
+                                                        .child(uid)
+                                                        .child("currGroup")
+                                                        .setValue(groupName);
+
+                                                // add group name to group_locations
+                                                FirebaseDatabase.getInstance().getReference("group_locations")
+                                                        .child(groupName)
+                                                        .child(uid)
+                                                        .setValue(true);
+
+                                                SharedPreferences prefs = getActivity().getSharedPreferences("USER_DATA", 0);
+                                                SharedPreferences.Editor editor = prefs.edit();
+                                                editor.putString("GROUP_ID", groupName);
+                                                editor.apply();
+
+                                                Fragment fragment = new MessagesFragment();
+                                                FragmentTransaction trans = getActivity().getSupportFragmentManager().beginTransaction();
+                                                trans.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                                                trans.replace(R.id.content_frame, fragment, "tag");
+                                                trans.addToBackStack(null);
+                                                trans.commit();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                             }
                         });
                     }
