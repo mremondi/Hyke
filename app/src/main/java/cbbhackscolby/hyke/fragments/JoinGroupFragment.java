@@ -1,5 +1,6 @@
 package cbbhackscolby.hyke.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -53,6 +54,12 @@ public class JoinGroupFragment extends Fragment {
                                     .child("members")
                                     .child(uid)
                                     .setValue(true);
+
+                            SharedPreferences prefs = getActivity().getSharedPreferences("USER_DATA", 0);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("GROUP_ID", joinGroupPasscode.getText().toString());
+                            editor.apply();
+
 
                             Toast.makeText(getContext(), "Joined Group Successfully", Toast.LENGTH_LONG).show();
                             Fragment fragment = new HomeFragment();

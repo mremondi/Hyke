@@ -1,6 +1,7 @@
 package cbbhackscolby.hyke.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -63,6 +64,15 @@ public class HykeLocationManager implements LocationListener {
         String uid = auth.getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
         ref.child(uid).child("location").setValue(new Loc(location.getLatitude(), location.getLongitude()));
+
+        SharedPreferences prefs = context.getSharedPreferences("USER_DATA", 0);
+        String group_id = prefs.getString("GROUP_ID", "");
+        FirebaseDatabase.getInstance().getReference()
+                .child("group_locations")
+                .child(group_id)
+                .child(uid)
+                .setValue(location.getLatitude(), location.getLongitude());
+
         EventBus.getDefault().post(location);
     }
 

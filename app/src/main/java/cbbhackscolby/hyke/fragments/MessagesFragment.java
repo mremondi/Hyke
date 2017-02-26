@@ -84,7 +84,6 @@ public class MessagesFragment extends Fragment {
                                     .push()
                                     .setValue(new Message(input.getText().toString(), name));
 
-                            // Clear the input
                             input.setText("");
                         }
                     });
