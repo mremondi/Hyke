@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import cbbhackscolby.hyke.LoginActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+
 import cbbhackscolby.hyke.R;
 import cbbhackscolby.hyke.models.Main;
 import cbbhackscolby.hyke.models.Weather;
@@ -42,15 +44,21 @@ public class HomeFragment extends Fragment {
         final TextView tvWeatherLocation = (TextView) rootView.findViewById(R.id.tvWeatherLocation);
         final ImageView ivWeatherIcon = (ImageView) rootView.findViewById(R.id.ivWeatherIcon);
 
-        Button signin = (Button) rootView.findViewById(R.id.signin);
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
-        signin.startAnimation(fadein);
+//        Button signin = (Button) rootView.findViewById(R.id.signin);
+//        signin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getActivity(), LoginActivity.class);
+//                startActivity(i);
+//            }
+//        });
+//        signin.startAnimation(fadein);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            startActivity(i);
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -74,7 +82,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
         final Button bHomeButton = (Button) rootView.findViewById(R.id.bHomeButton);
         bHomeButton.startAnimation(fadein);
         final Animation pulse = AnimationUtils.loadAnimation(getContext(),R.anim.pulse);
@@ -82,11 +89,8 @@ public class HomeFragment extends Fragment {
         bHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 bHomeButton.startAnimation(pulse);
-
                 mDrawerLayout.openDrawer(Gravity.LEFT);
-
             }
         });
         return rootView;
