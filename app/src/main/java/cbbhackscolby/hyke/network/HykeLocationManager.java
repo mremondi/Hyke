@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,11 +68,12 @@ public class HykeLocationManager implements LocationListener {
 
         SharedPreferences prefs = context.getSharedPreferences("USER_DATA", 0);
         String group_id = prefs.getString("GROUP_ID", "");
+        Log.d("group_id", group_id);
         FirebaseDatabase.getInstance().getReference()
                 .child("group_locations")
                 .child(group_id)
                 .child(uid)
-                .setValue(location.getLatitude(), location.getLongitude());
+                .setValue(new Loc(location.getLatitude(), location.getLongitude()));
 
         EventBus.getDefault().post(location);
     }
