@@ -10,7 +10,8 @@ Use HYK to:
   - Send a distress alert to your group if you need help
 
 ### Screenshots
-![Messages](misc/images/messages.png)   ![Locations](misc/images/nav.png)
+<img src="/mremondi/Hyke/raw/master/misc/images/messages.png" alt="Messages" style="width: 300px; height:auto;">
+<img src="/mremondi/Hyke/raw/master/misc/images/nac.png" alt="Locations" style="width: 300px; height:auto;">
 
 Brought to you by:
 [Mike Remondi](https://github.com/mremondi)
