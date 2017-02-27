@@ -11,7 +11,7 @@ Use HYK to:
 
 ### Screenshots
 <img src="/mremondi/Hyke/raw/master/misc/images/messages.png" alt="Messages" style="width: 300px; height:auto;">
-<img src="/mremondi/Hyke/raw/master/misc/images/nac.png" alt="Locations" style="width: 300px; height:auto;">
+<img src="/mremondi/Hyke/raw/master/misc/images/nac.png" alt="Locations" style="width: 300px; height:527px;">
 
 Brought to you by:
 [Mike Remondi](https://github.com/mremondi)
